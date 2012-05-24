@@ -102,7 +102,7 @@ class Custom_Post_Type_Retailer
 	 * Load plugin textdomain
 	 *
 	 * @return void
-	 * @author 
+	 * @author Ralf Hortt
 	 **/
 	public function load_plugin_textdomain()
 	{
@@ -114,6 +114,7 @@ class Custom_Post_Type_Retailer
 	/**
 	 * Post updated messages
 	 *
+	 * @param array $messages Update Messages
 	 * @return void
 	 * @author Ralf Hortt
 	 **/
@@ -196,6 +197,12 @@ class Custom_Post_Type_Retailer
 	{
 		// Load data
 		$retailer = get_post_meta( $post->ID, '_retailer', TRUE );
+		$address = $retailer['retailer-street'] . '+' . $retailer['retailer-streetnumber'] . '+' . $retailer['retailer-zip'] . '+' . $retailer['retailer-city'] . '+' . $retailer['retailer-country'];
+
+		// Easter egg!
+		// Stadion of my favorite football club!
+		if ( '++++'== $address )
+			$address = 'Fritz-Walter-Straße+1+67663+Kaiserslautern+Fritz-Walter-Stadion';
 
 		?>
 		<p>
@@ -207,7 +214,7 @@ class Custom_Post_Type_Retailer
 
 		<p>
 			<span class="retailer-zip-city">
-				<label for="retailer-zipcode"><?php _e( 'Zip', 'HC_CPT_RETAILER' ); ?></label> / <label for="retailer-city"><?php _e( 'City', 'HC_CPT_RETAILER' ); ?></label>
+				<label for="retailer-zip"><?php _e( 'Zip', 'HC_CPT_RETAILER' ); ?></label> / <label for="retailer-city"><?php _e( 'City', 'HC_CPT_RETAILER' ); ?></label>
 			</span>
 			<input type="text" name="retailer-zip" id="retailer-zip" value="<?php echo $retailer['retailer-zip'] ?>"> / <input type="text" name="retailer-city" id="retailer-city" value="<?php echo $retailer['retailer-city'] ?>">
 		</p>
@@ -217,126 +224,112 @@ class Custom_Post_Type_Retailer
 			<input type="text" name="retailer-country" id="retailer-country" value="<?php echo $retailer['retailer-country'] ?>" list="countries">
 			<?php if ( $csp_l10n_sys_locales ) : ?>
 				<datalist id="countries">
-					<option><?php _e( 'South Africa', 'HC_CPT_RETAILER' ) ?></option>
-					<option><?php _e( 'U.A.E.', 'HC_CPT_RETAILER' ) ?></option>
-					<option><?php _e( 'Bahrain', 'HC_CPT_RETAILER' ) ?></option>
+					<option><?php _e( 'Albania', 'HC_CPT_RETAILER' ) ?></option>
 					<option><?php _e( 'Algeria', 'HC_CPT_RETAILER' ) ?></option>
-					<option><?php _e( 'Egypt', 'HC_CPT_RETAILER' ) ?></option>
-					<option><?php _e( 'Iraq', 'HC_CPT_RETAILER' ) ?></option>
-					<option><?php _e( 'Jordan', 'HC_CPT_RETAILER' ) ?></option>
-					<option><?php _e( 'Kuwait', 'HC_CPT_RETAILER' ) ?></option>
-					<option><?php _e( 'Lebanon', 'HC_CPT_RETAILER' ) ?></option>
-					<option><?php _e( 'Libya', 'HC_CPT_RETAILER' ) ?></option>
-					<option><?php _e( 'Morocco', 'HC_CPT_RETAILER' ) ?></option>
-					<option><?php _e( 'Oman', 'HC_CPT_RETAILER' ) ?></option>
-					<option><?php _e( 'Qatar', 'HC_CPT_RETAILER' ) ?></option>
-					<option><?php _e( 'Saudi Arabia', 'HC_CPT_RETAILER' ) ?></option>
-					<option><?php _e( 'Syria', 'HC_CPT_RETAILER' ) ?></option>
-					<option><?php _e( 'Tunisia', 'HC_CPT_RETAILER' ) ?></option>
-					<option><?php _e( 'Yemen', 'HC_CPT_RETAILER' ) ?></option>
-					<option><?php _e( 'Azerbaijan', 'HC_CPT_RETAILER' ) ?></option>
-					<option><?php _e( 'Belarus', 'HC_CPT_RETAILER' ) ?></option>
-					<option><?php _e( 'Bulgaria', 'HC_CPT_RETAILER' ) ?></option>
-					<option><?php _e( 'Belarus', 'HC_CPT_RETAILER' ) ?></option>
-					<option><?php _e( 'Spain', 'HC_CPT_RETAILER' ) ?></option>
-					<option><?php _e( 'Czech Republic', 'HC_CPT_RETAILER' ) ?></option>
-					<option><?php _e( 'Denmark', 'HC_CPT_RETAILER' ) ?></option>
-					<option><?php _e( 'Austria', 'HC_CPT_RETAILER' ) ?></option>
-					<option><?php _e( 'Switzerland', 'HC_CPT_RETAILER' ) ?></option>
-					<option><?php _e( 'Germany', 'HC_CPT_RETAILER' ) ?></option>
-					<option><?php _e( 'Luxembourg', 'HC_CPT_RETAILER' ) ?></option>
-					<option><?php _e( 'Greece', 'HC_CPT_RETAILER' ) ?></option>
-					<option><?php _e( 'Australia', 'HC_CPT_RETAILER' ) ?></option>
-					<option><?php _e( 'Canada', 'HC_CPT_RETAILER' ) ?></option>
-					<option><?php _e( 'United Kingdom', 'HC_CPT_RETAILER' ) ?></option>
-					<option><?php _e( 'Ireland', 'HC_CPT_RETAILER' ) ?></option>
-					<option><?php _e( 'New Zealand', 'HC_CPT_RETAILER' ) ?></option>
-					<option><?php _e( 'Republic of the Philippines', 'HC_CPT_RETAILER' ) ?></option>
-					<option><?php _e( 'United States', 'HC_CPT_RETAILER' ) ?></option>
-					<option><?php _e( 'South Africa', 'HC_CPT_RETAILER' ) ?></option>
 					<option><?php _e( 'Argentina', 'HC_CPT_RETAILER' ) ?></option>
+					<option><?php _e( 'Australia', 'HC_CPT_RETAILER' ) ?></option>
+					<option><?php _e( 'Austria', 'HC_CPT_RETAILER' ) ?></option>
+					<option><?php _e( 'Azerbaijan', 'HC_CPT_RETAILER' ) ?></option>
+					<option><?php _e( 'Bahrain', 'HC_CPT_RETAILER' ) ?></option>
+					<option><?php _e( 'Basque', 'HC_CPT_RETAILER' ) ?></option>
+					<option><?php _e( 'Belarus', 'HC_CPT_RETAILER' ) ?></option>
+					<option><?php _e( 'Belgium', 'HC_CPT_RETAILER' ) ?></option>
 					<option><?php _e( 'Bolivia', 'HC_CPT_RETAILER' ) ?></option>
+					<option><?php _e( 'Bosnia and Herzegovina', 'HC_CPT_RETAILER' ) ?></option>
+					<option><?php _e( 'Brazil', 'HC_CPT_RETAILER' ) ?></option>
+					<option><?php _e( 'Bulgaria', 'HC_CPT_RETAILER' ) ?></option>
+					<option><?php _e( 'Canada', 'HC_CPT_RETAILER' ) ?></option>
 					<option><?php _e( 'Chile', 'HC_CPT_RETAILER' ) ?></option>
+					<option><?php _e( 'China', 'HC_CPT_RETAILER' ) ?></option>
 					<option><?php _e( 'Colombia', 'HC_CPT_RETAILER' ) ?></option>
 					<option><?php _e( 'Costa Rica', 'HC_CPT_RETAILER' ) ?></option>
+					<option><?php _e( 'Croatia', 'HC_CPT_RETAILER' ) ?></option>
+					<option><?php _e( 'Czech Republic', 'HC_CPT_RETAILER' ) ?></option>
+					<option><?php _e( 'Denmark', 'HC_CPT_RETAILER' ) ?></option>
 					<option><?php _e( 'Dominican Republic', 'HC_CPT_RETAILER' ) ?></option>
 					<option><?php _e( 'Ecuador', 'HC_CPT_RETAILER' ) ?></option>
-					<option><?php _e( 'Spain', 'HC_CPT_RETAILER' ) ?></option>
+					<option><?php _e( 'Egypt', 'HC_CPT_RETAILER' ) ?></option>
+					<option><?php _e( 'El Salvador', 'HC_CPT_RETAILER' ) ?></option>
+					<option><?php _e( 'Espana', 'HC_CPT_RETAILER' ) ?></option>
+					<option><?php _e( 'Estonia', 'HC_CPT_RETAILER' ) ?></option>
+					<option><?php _e( 'Faroe Islands', 'HC_CPT_RETAILER' ) ?></option>
+					<option><?php _e( 'Finland', 'HC_CPT_RETAILER' ) ?></option>
+					<option><?php _e( 'Former Yugoslav Republic of Macedonia', 'HC_CPT_RETAILER' ) ?></option>
+					<option><?php _e( 'France', 'HC_CPT_RETAILER' ) ?></option>
+					<option><?php _e( 'Germany', 'HC_CPT_RETAILER' ) ?></option>
+					<option><?php _e( 'Greece', 'HC_CPT_RETAILER' ) ?></option>
 					<option><?php _e( 'Guatemala', 'HC_CPT_RETAILER' ) ?></option>
 					<option><?php _e( 'Honduras', 'HC_CPT_RETAILER' ) ?></option>
-					<option><?php _e( 'Mexico', 'HC_CPT_RETAILER' ) ?></option>
-					<option><?php _e( 'Nicaragua', 'HC_CPT_RETAILER' ) ?></option>
-					<option><?php _e( 'Panama', 'HC_CPT_RETAILER' ) ?></option>
-					<option><?php _e( 'Peru', 'HC_CPT_RETAILER' ) ?></option>
-					<option><?php _e( 'Puerto Rico', 'HC_CPT_RETAILER' ) ?></option>
-					<option><?php _e( 'Paraguay', 'HC_CPT_RETAILER' ) ?></option>
-					<option><?php _e( 'El Salvador', 'HC_CPT_RETAILER' ) ?></option>
-					<option><?php _e( 'Uruguay', 'HC_CPT_RETAILER' ) ?></option>
-					<option><?php _e( 'Venezuela', 'HC_CPT_RETAILER' ) ?></option>
-					<option><?php _e( 'Estonia', 'HC_CPT_RETAILER' ) ?></option>
-					<option><?php _e( 'Basque', 'HC_CPT_RETAILER' ) ?></option>
-					<option><?php _e( 'Iran', 'HC_CPT_RETAILER' ) ?></option>
-					<option><?php _e( 'Finland', 'HC_CPT_RETAILER' ) ?></option>
-					<option><?php _e( 'Faroe Islands', 'HC_CPT_RETAILER' ) ?></option>
-					<option><?php _e( 'Belgium', 'HC_CPT_RETAILER' ) ?></option>
-					<option><?php _e( 'Canada', 'HC_CPT_RETAILER' ) ?></option>
-					<option><?php _e( 'Switzerland', 'HC_CPT_RETAILER' ) ?></option>
-					<option><?php _e( 'France', 'HC_CPT_RETAILER' ) ?></option>
-					<option><?php _e( 'Luxembourg', 'HC_CPT_RETAILER' ) ?></option>
-					<option><?php _e( 'Netherlands', 'HC_CPT_RETAILER' ) ?></option>
-					<option><?php _e( 'Ireland', 'HC_CPT_RETAILER' ) ?></option>
-					<option><?php _e( 'Espana', 'HC_CPT_RETAILER' ) ?></option>
-					<option><?php _e( 'Israel', 'HC_CPT_RETAILER' ) ?></option>
-					<option><?php _e( 'India', 'HC_CPT_RETAILER' ) ?></option>
-					<option><?php _e( 'Croatia', 'HC_CPT_RETAILER' ) ?></option>
+					<option><?php _e( 'Hong Kong S.A.R.', 'HC_CPT_RETAILER' ) ?></option>
 					<option><?php _e( 'Hungary', 'HC_CPT_RETAILER' ) ?></option>
-					<option><?php _e( 'Indonesia', 'HC_CPT_RETAILER' ) ?></option>
 					<option><?php _e( 'Iceland', 'HC_CPT_RETAILER' ) ?></option>
-					<option><?php _e( 'Switzerland', 'HC_CPT_RETAILER' ) ?></option>
+					<option><?php _e( 'India', 'HC_CPT_RETAILER' ) ?></option>
+					<option><?php _e( 'Indonesia', 'HC_CPT_RETAILER' ) ?></option>
+					<option><?php _e( 'Iran', 'HC_CPT_RETAILER' ) ?></option>
+					<option><?php _e( 'Iraq', 'HC_CPT_RETAILER' ) ?></option>
+					<option><?php _e( 'Ireland', 'HC_CPT_RETAILER' ) ?></option>
+					<option><?php _e( 'Israel', 'HC_CPT_RETAILER' ) ?></option>
 					<option><?php _e( 'Italy', 'HC_CPT_RETAILER' ) ?></option>
 					<option><?php _e( 'Japan', 'HC_CPT_RETAILER' ) ?></option>
+					<option><?php _e( 'Jordan', 'HC_CPT_RETAILER' ) ?></option>
 					<option><?php _e( 'Kazakhstan', 'HC_CPT_RETAILER' ) ?></option>
 					<option><?php _e( 'Korea', 'HC_CPT_RETAILER' ) ?></option>
+					<option><?php _e( 'Kuwait', 'HC_CPT_RETAILER' ) ?></option>
 					<option><?php _e( 'Kyrgyzstan', 'HC_CPT_RETAILER' ) ?></option>
-					<option><?php _e( 'Luxembourg', 'HC_CPT_RETAILER' ) ?></option>
-					<option><?php _e( 'Lithuania', 'HC_CPT_RETAILER' ) ?></option>
 					<option><?php _e( 'Latvia', 'HC_CPT_RETAILER' ) ?></option>
-					<option><?php _e( 'Former Yugoslav Republic of Macedonia', 'HC_CPT_RETAILER' ) ?></option>
+					<option><?php _e( 'Lebanon', 'HC_CPT_RETAILER' ) ?></option>
+					<option><?php _e( 'Libya', 'HC_CPT_RETAILER' ) ?></option>
+					<option><?php _e( 'Lithuania', 'HC_CPT_RETAILER' ) ?></option>
+					<option><?php _e( 'Luxembourg', 'HC_CPT_RETAILER' ) ?></option>
+					<option><?php _e( 'Macau S.A.R.', 'HC_CPT_RETAILER' ) ?></option>
+					<option><?php _e( 'Mexico', 'HC_CPT_RETAILER' ) ?></option>
 					<option><?php _e( 'Mongolia', 'HC_CPT_RETAILER' ) ?></option>
-					<option><?php _e( 'Norway', 'HC_CPT_RETAILER' ) ?></option>
-					<option><?php _e( 'Norway', 'HC_CPT_RETAILER' ) ?></option>
-					<option><?php _e( 'Belgium', 'HC_CPT_RETAILER' ) ?></option>
+					<option><?php _e( 'Morocco', 'HC_CPT_RETAILER' ) ?></option>
 					<option><?php _e( 'Netherlands', 'HC_CPT_RETAILER' ) ?></option>
+					<option><?php _e( 'New Zealand', 'HC_CPT_RETAILER' ) ?></option>
+					<option><?php _e( 'Nicaragua', 'HC_CPT_RETAILER' ) ?></option>
 					<option><?php _e( 'Norway', 'HC_CPT_RETAILER' ) ?></option>
+					<option><?php _e( 'Oman', 'HC_CPT_RETAILER' ) ?></option>
+					<option><?php _e( 'Panama', 'HC_CPT_RETAILER' ) ?></option>
+					<option><?php _e( 'Paraguay', 'HC_CPT_RETAILER' ) ?></option>
+					<option><?php _e( 'Peru', 'HC_CPT_RETAILER' ) ?></option>
+					<option><?php _e( 'Philippines', 'HC_CPT_RETAILER' ) ?></option>
 					<option><?php _e( 'Poland', 'HC_CPT_RETAILER' ) ?></option>
-					<option><?php _e( 'Brazil', 'HC_CPT_RETAILER' ) ?></option>
 					<option><?php _e( 'Portugal', 'HC_CPT_RETAILER' ) ?></option>
+					<option><?php _e( 'Puerto Rico', 'HC_CPT_RETAILER' ) ?></option>
+					<option><?php _e( 'Qatar', 'HC_CPT_RETAILER' ) ?></option>
+					<option><?php _e( 'Republic of the Philippines', 'HC_CPT_RETAILER' ) ?></option>
 					<option><?php _e( 'Romania', 'HC_CPT_RETAILER' ) ?></option>
 					<option><?php _e( 'Russia', 'HC_CPT_RETAILER' ) ?></option>
-					<option><?php _e( 'Slovakia', 'HC_CPT_RETAILER' ) ?></option>
-					<option><?php _e( 'Slovenia', 'HC_CPT_RETAILER' ) ?></option>
-					<option><?php _e( 'Albania', 'HC_CPT_RETAILER' ) ?></option>
-					<option><?php _e( 'Bosnia and Herzegovina', 'HC_CPT_RETAILER' ) ?></option>
+					<option><?php _e( 'Saudi Arabia', 'HC_CPT_RETAILER' ) ?></option>
 					<option><?php _e( 'Serbia and Montenegro', 'HC_CPT_RETAILER' ) ?></option>
 					<option><?php _e( 'Serbia', 'HC_CPT_RETAILER' ) ?></option>
-					<option><?php _e( 'Sweden', 'HC_CPT_RETAILER' ) ?></option>
-					<option><?php _e( 'Thailand', 'HC_CPT_RETAILER' ) ?></option>
-					<option><?php _e( 'Philippines', 'HC_CPT_RETAILER' ) ?></option>
-					<option><?php _e( 'Turkey', 'HC_CPT_RETAILER' ) ?></option>
-					<option><?php _e( 'Ukraine', 'HC_CPT_RETAILER' ) ?></option>
-					<option><?php _e( 'Viet Nam', 'HC_CPT_RETAILER' ) ?></option>
-					<option><?php _e( 'South Africa', 'HC_CPT_RETAILER' ) ?></option>
-					<option><?php _e("People's Republic of China") ?></option>
-					<option><?php _e( 'Macau S.A.R.', 'HC_CPT_RETAILER' ) ?></option>
-					<option><?php _e( 'Hong Kong S.A.R.', 'HC_CPT_RETAILER' ) ?></option>
 					<option><?php _e( 'Singapore', 'HC_CPT_RETAILER' ) ?></option>
-					<option><?php _e( 'Taiwan', 'HC_CPT_RETAILER' ) ?></option>
+					<option><?php _e( 'Slovakia', 'HC_CPT_RETAILER' ) ?></option>
+					<option><?php _e( 'Slovenia', 'HC_CPT_RETAILER' ) ?></option>
 					<option><?php _e( 'South Africa', 'HC_CPT_RETAILER' ) ?></option>
+					<option><?php _e( 'Spain', 'HC_CPT_RETAILER' ) ?></option>
+					<option><?php _e( 'Spain', 'HC_CPT_RETAILER' ) ?></option>
+					<option><?php _e( 'Sweden', 'HC_CPT_RETAILER' ) ?></option>
+					<option><?php _e( 'Switzerland', 'HC_CPT_RETAILER' ) ?></option>
+					<option><?php _e( 'Syria', 'HC_CPT_RETAILER' ) ?></option>
+					<option><?php _e( 'Taiwan', 'HC_CPT_RETAILER' ) ?></option>
+					<option><?php _e( 'Thailand', 'HC_CPT_RETAILER' ) ?></option>
+					<option><?php _e( 'Tunisia', 'HC_CPT_RETAILER' ) ?></option>
+					<option><?php _e( 'Turkey', 'HC_CPT_RETAILER' ) ?></option>
+					<option><?php _e( 'U.A.E.', 'HC_CPT_RETAILER' ) ?></option>
+					<option><?php _e( 'Ukraine', 'HC_CPT_RETAILER' ) ?></option>
+					<option><?php _e( 'United Kingdom', 'HC_CPT_RETAILER' ) ?></option>
+					<option><?php _e( 'United States', 'HC_CPT_RETAILER' ) ?></option>
+					<option><?php _e( 'Uruguay', 'HC_CPT_RETAILER' ) ?></option>
+					<option><?php _e( 'Venezuela', 'HC_CPT_RETAILER' ) ?></option>
+					<option><?php _e( 'Viet Nam', 'HC_CPT_RETAILER' ) ?></option>
+					<option><?php _e( 'Yemen', 'HC_CPT_RETAILER' ) ?></option>
 				</datalist>
 			<?php endif; ?>
 		</p>
 		<p>
-			<iframe class="retailer-map" src="http://maps.google.de/maps?q=Saarbr%C3%BCcken&amp;output=embed"></iframe>
+			<iframe class="retailer-map" src="http://maps.google.de/maps?q=<?php echo $address ?>&amp;output=embed"></iframe>
 		</p>
 		<?php
 		// Use nonce for verification
@@ -386,7 +379,7 @@ class Custom_Post_Type_Retailer
 	 * Save meta data
 	 *
 	 * @return void
-	 * @author 
+	 * @author Ralf Hortt
 	 **/
 	public function save_post( $post_id )
 	{
