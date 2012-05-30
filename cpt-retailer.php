@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Custom Post Type Retailer
-Plugin URL: http://horttcore.de
+Plugin URL: https://github.com/Horttcore/Custom-Post-Type-Retailer
 Description: 
 Version: 0.1
 Author: Ralf Hortt
@@ -36,6 +36,9 @@ define( 'HC_CPT_RETAILER_BASEDIR', dirname( plugin_basename(__FILE__) ) );
 */
 class Custom_Post_Type_Retailer
 {
+
+
+
 	/**
 	 * Constructor
 	 *
@@ -51,6 +54,10 @@ class Custom_Post_Type_Retailer
 		add_action( 'admin_print_styles-post-new.php', array( $this, 'enqueue_styles' ) );
 		add_action( 'save_post', array( $this, 'save_post' ) );
 
+		add_shortcode( 'RETAILERADDRESS', array( $this, 'shortcode_address' ) );
+		add_shortcode( 'RETAILERCONTACT', array( $this, 'shortcode_contact' ) );
+		add_shortcode( 'RETAILERMAP', array( $this, 'shortcode_map' ) );
+
 		add_filter( 'post_updated_messages', array( $this, 'post_updated_messages' ) );
 	}
 
@@ -64,7 +71,7 @@ class Custom_Post_Type_Retailer
 	 **/
 	public function add_meta_boxes()
 	{
-		add_meta_box( 'retailer-address', __( 'Adress', 'HC_CPT_RETAILER' ), array( $this, 'retailer_address' ), 'retailer' );
+		add_meta_box( 'retailer-address', __( 'Address', 'HC_CPT_RETAILER' ), array( $this, 'retailer_address' ), 'retailer' );
     	add_meta_box( 'retailer-contact', __( 'Contact', 'HC_CPT_RETAILER' ), array( $this, 'retailer_contact' ), 'retailer' );
 	}
 
@@ -204,6 +211,7 @@ class Custom_Post_Type_Retailer
 		if ( '++++'== $address )
 			$address = 'Fritz-Walter-Straße+1+67663+Kaiserslautern+Fritz-Walter-Stadion';
 
+		do_action( 'retailer-metabox-address-before' );
 		?>
 		<p>
 			<span class="retailer-street-number">
@@ -332,6 +340,8 @@ class Custom_Post_Type_Retailer
 			<iframe class="retailer-map" src="http://maps.google.de/maps?q=<?php echo $address ?>&amp;output=embed"></iframe>
 		</p>
 		<?php
+		do_action( 'retailer-metabox-address-after' );
+
 		// Use nonce for verification
  		wp_nonce_field( plugin_basename( __FILE__ ), 'hc-cpt-retailer' );
 	}
@@ -349,6 +359,8 @@ class Custom_Post_Type_Retailer
 	{
 		// Load data
 		$retailer = get_post_meta( $post->ID, '_retailer', TRUE );
+
+		do_action( 'retailer-metabox-contact-after' );
 		?>
 		<p>
 			<label for="retailer-phone-area-code"><?php _e( 'Phone', 'HC_CPT_RETAILER' ); ?></label>
@@ -371,6 +383,7 @@ class Custom_Post_Type_Retailer
 			<input type="url" name="retailer-url" id="retailer-url" value="<?php echo $retailer['retailer-url'] ?>">
 		</p>
 		<?php
+		do_action( 'retailer-metabox-contact-after' );
 	}
 
 
@@ -417,5 +430,83 @@ class Custom_Post_Type_Retailer
 
 
 
+	/**
+	 * Shortcode Display Retailer Address
+	 *
+	 * @return void
+	 * @author 
+	 **/
+	public function shortcode_address( $atts )
+	{
+		extract( shortcode_atts( array(
+			'id' => false
+		), $atts ) );
+
+		$retailer = get_post_meta( $id, '_retailer', TRUE );
+
+		$output = '<dl>';
+		$output.= '<dt>' . __( 'Street', 'HC_CPT_RETAILER' ) . ':</dt>';
+		$output.= '<dd>' . $retailer['retailer-street'] . ' ' . $retailer['retailer-streetnumber'] . '</dd>';
+		$output.= '<dt>' . __( 'City', 'HC_CPT_RETAILER' ) . ':</dt>';
+		$output.= '<dd>' . $retailer['retailer-zip'] . ' ' . $retailer['retailer-city'] . '</dd>';
+		$output.= '<dt>' . __( 'Country', 'HC_CPT_RETAILER' ) . ':</dt>';
+		$output.= '<dd>' . $retailer['retailer-country'] . '</dd>';
+		$output.= '</dl>';
+
+		return apply_filters( 'retailer-contact', $output );
+	}
+
+
+
+	/**
+	 * Shortcode Display Retailer Contact
+	 *
+	 * @return void
+	 * @author 
+	 **/
+	public function shortcode_contact( $atts )
+	{
+		extract( shortcode_atts( array(
+			'id' => false
+		), $atts ) );
+
+		$retailer = get_post_meta( $id, '_retailer', TRUE );
+
+		$output = '<dl>';
+		$output.= '<dt>' . __( 'Phone', 'HC_CPT_RETAILER' ) . ':</dt>';
+		$output.= '<dd>' . $retailer['retailer-phone-area-code'] . ' ' . $retailer['retailer-phone'] . '</dd>';
+		$output.= '<dt>' . __( 'Fax', 'HC_CPT_RETAILER' ) . ':</dt>';
+		$output.= '<dd>' . $retailer['retailer-fax-area-code'] . ' ' . $retailer['retailer-fax'] . '</dd>';
+		$output.= '<dt>' . __( 'Mobile', 'HC_CPT_RETAILER' ) . ':</dt>';
+		$output.= '<dd>' . $retailer['retailer-fax-area-code'] . ' ' . $retailer['retailer-fax'] . '</dd>';
+		$output.= '<dt>' . __( 'E-Mail', 'HC_CPT_RETAILER' ) . ':</dt>';
+		$output.= '<dd>' . $retailer['retailer-email'] . '</dd>';
+		$output.= '<dt>' . __( 'Url', 'HC_CPT_RETAILER' ) . ':</dt>';
+		$output.= '<dd>' . $retailer['retailer-url'] . '</dd>';
+		$output.= '</dl>';
+
+		return apply_filters( 'retailer-contact', $output );
+	}
+
+
+
+	/**
+	 * Shortcode Display Retailer Map
+	 *
+	 * @return void
+	 * @author 
+	 **/
+	public function shortcode_map( $atts )
+	{
+		extract( shortcode_atts( array(
+			'address' => '',
+			'class' => 'retailer-map',
+			'height' => '400',
+			'id' => 'retailer-map',
+			'width' => '400'
+		), $atts ) );
+
+		return apply_filters( 'retailer-map', '<iframe class="' . esc_attr( $class ) . '" id="' . esc_attr( $class ) . '" src="http://maps.google.de/maps?q=' . esc_attr( urlencode( $address ) ) . '&amp;output=embed"></iframe>' );
+	}
 }
 $CPT_Retailer = new Custom_Post_Type_Retailer;
