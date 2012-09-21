@@ -59,6 +59,8 @@ class Custom_Post_Type_Retailer
 		add_shortcode( 'RETAILERMAP', array( $this, 'shortcode_map' ) );
 
 		add_filter( 'post_updated_messages', array( $this, 'post_updated_messages' ) );
+
+		load_plugin_textdomain( 'HC_CPT_RETAILER', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 	}
 
 
@@ -101,19 +103,6 @@ class Custom_Post_Type_Retailer
 	public function enqueue_styles()
 	{
 		wp_enqueue_style( 'cpt-retailer-css', WP_PLUGIN_URL . '/' . HC_CPT_RETAILER_BASEDIR . '/css/cpt-retailer.css' );
-	}
-
-
-
-	/**
-	 * Load plugin textdomain
-	 *
-	 * @return void
-	 * @author Ralf Hortt
-	 **/
-	public function load_plugin_textdomain()
-	{
-		load_plugin_textdomain( 'HC_CPT_RETAILER', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/'  );
 	}
 
 
