@@ -1,0 +1,24 @@
+{
+  "name": "ralfhortt/wordpress-plugin-boilerplate",
+  "description": "A WordPress Plugin Boilerplate",
+  "type": "wp-plugin",
+  "authors": [
+    {
+      "name": "Ralf Hortt",
+      "email": "me@horttcore.de"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "RalfHortt\\CustomPostTypeRetailers\\": "src/"
+    },
+    "files": [
+      "inc/template-tags.php"
+    ]
+  },
+  "require": {
+    "horttcore/wp-plugin": "^1.0",
+    "horttcore/wp-custom-post-type": "^1.0",
+    "horttcore/wp-meta-box": "^1.0"
+  }
+}
